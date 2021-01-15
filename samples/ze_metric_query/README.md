@@ -50,7 +50,7 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib ./ze_metric_query ../../ze_gemm/
 ```
 On Linux one may need to enable collection for non-root users:
 ```sh
-sudo echo 0 > /proc/sys/dev/i915/perf_stream_paranoid
+echo 0 | sudo tee /proc/sys/dev/i915/perf_stream_paranoid
 ```
 ### Windows
 Use Microsoft* Visual Studio x64 command prompt to run the following commands and build the sample:
