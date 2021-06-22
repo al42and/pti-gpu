@@ -183,6 +183,31 @@ inline size_t GetKernelMaxSubgroupSize(ze_kernel_handle_t kernel) {
   return props.maxSubgroupSize;
 }
 
+inline size_t GetKernelLocalMemSize(ze_kernel_handle_t kernel) {
+  PTI_ASSERT(kernel != nullptr);
+  ze_kernel_properties_t props{};
+  ze_result_t status = zeKernelGetProperties(kernel, &props);
+  PTI_ASSERT(status == ZE_RESULT_SUCCESS);
+  return props.localMemSize;
+}
+
+inline size_t GetKernelPrivateMemSize(ze_kernel_handle_t kernel) {
+  PTI_ASSERT(kernel != nullptr);
+  ze_kernel_properties_t props{};
+  ze_result_t status = zeKernelGetProperties(kernel, &props);
+  PTI_ASSERT(status == ZE_RESULT_SUCCESS);
+  return props.privateMemSize;
+}
+
+inline size_t GetKernelSpillMemSize(ze_kernel_handle_t kernel) {
+  PTI_ASSERT(kernel != nullptr);
+  ze_kernel_properties_t props{};
+  ze_result_t status = zeKernelGetProperties(kernel, &props);
+  PTI_ASSERT(status == ZE_RESULT_SUCCESS);
+  return props.spillMemSize;
+}
+
+
 inline std::string GetKernelName(ze_kernel_handle_t kernel) {
   PTI_ASSERT(kernel != nullptr);
 

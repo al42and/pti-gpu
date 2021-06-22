@@ -33,6 +33,9 @@ struct ZeKernelGroupSize {
 
 struct ZeKernelProps {
   size_t simd_width;
+  size_t local_mem;
+  size_t private_mem;
+  size_t spill_mem;
   size_t bytes_transferred;
   uint32_t group_count[3];
   uint32_t group_size[3];
@@ -477,7 +480,11 @@ class ZeKernelCollector {
           props->group_count[2] << "}, {" <<
           props->group_size[0] << ", " <<
           props->group_size[1] << ", " <<
-          props->group_size[2] << "}]";
+          props->group_size[2] << "}, " <<
+          "SLM/Priv/Spill " <<
+          props->local_mem << "/" <<
+          props->private_mem << "/" <<
+          props->spill_mem << "]";
         name = sstream.str();
       } else if (props->bytes_transferred > 0) {
         name = name + "[" +
@@ -836,6 +843,10 @@ class ZeKernelCollector {
     props.simd_width =
       utils::ze::GetKernelMaxSubgroupSize(kernel);
     props.bytes_transferred = 0;
+
+    props.local_mem = utils::ze::GetKernelLocalMemSize(kernel);
+    props.private_mem = utils::ze::GetKernelPrivateMemSize(kernel);
+    props.spill_mem = utils::ze::GetKernelSpillMemSize(kernel);
 
     ZeKernelCollector* collector =
         reinterpret_cast<ZeKernelCollector*>(global_data);
